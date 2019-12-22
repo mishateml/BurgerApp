@@ -4,6 +4,9 @@ import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummery from "../../components/Burger/OrderSummery/OrderSummery";
+import Spiner from "../../components/UI/Spiner/Spiner";
+import axios from "../../axios-orders";
+import errorHandler from "../../hoc/errorHandler/errorHandler";
 
 const ING_PRICE = {
   salad: 1,
@@ -24,7 +27,8 @@ class BurgerBulder extends Component {
     totalPrice: START_COST,
     canOrder: true,
     orderClick: false,
-    showModul: false
+    showModul: false,
+    showLoader: false
   };
 
   closeModal = () => {
@@ -51,7 +55,36 @@ class BurgerBulder extends Component {
     }
   };
   continueBtn = () => {
-    alert("ok redy to get");
+    this.setState({
+      showLoader: true
+    });
+    // alert("ok redy to get");
+    const order = {
+      ingridiens: this.state.ingredients,
+      price: this.state.totalPrice,
+      custumerInfo: {
+        name: "misha",
+        address: {
+          street: "testStreet",
+          contry: "israel"
+        },
+        email: "test@test.com"
+      }
+    };
+    axios
+      .post("/orders.json", order)
+      .then(
+        this.setState({
+          showModul: false,
+          showLoader: false
+        })
+      )
+      .catch(
+        this.setState({
+          showLoader: false,
+          showModul: false
+        })
+      );
   };
 
   addIngredients = type => {
@@ -83,16 +116,24 @@ class BurgerBulder extends Component {
     });
     this.ifCanOrder(subPrice);
   };
+
   render() {
+    let modalVeu = (
+      <OrderSummery
+        clickedContinueBtn={this.continueBtn}
+        clickedCancelBtn={this.closeModal}
+        ingr={this.state.ingredients}
+        cost={this.state.totalPrice}
+      />
+    );
+
+    if (this.state.showLoader) {
+      modalVeu = <Spiner />;
+    }
     return (
       <Aux>
         <Modal show={this.state.showModul} closeModal={this.closeModal}>
-          <OrderSummery
-            clickedContinueBtn={this.continueBtn}
-            clickedCancelBtn={this.closeModal}
-            ingr={this.state.ingredients}
-            cost={this.state.totalPrice}
-          />
+          {modalVeu}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
@@ -107,4 +148,4 @@ class BurgerBulder extends Component {
     );
   }
 }
-export default BurgerBulder;
+export default errorHandler(BurgerBulder, axios);
