@@ -18,18 +18,22 @@ const START_COST = 4;
 
 class BurgerBulder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    ingredients: null,
     totalPrice: START_COST,
     canOrder: true,
     orderClick: false,
     showModul: false,
     showLoader: false
   };
+  componentDidMount() {
+    axios
+      .get("https://reactburgermisha.firebaseio.com/ingridians.json")
+      .then(res => {
+        this.setState({
+          ingredients: res.data
+        });
+      });
+  }
 
   closeModal = () => {
     this.setState({
@@ -118,32 +122,43 @@ class BurgerBulder extends Component {
   };
 
   render() {
-    let modalVeu = (
-      <OrderSummery
-        clickedContinueBtn={this.continueBtn}
-        clickedCancelBtn={this.closeModal}
-        ingr={this.state.ingredients}
-        cost={this.state.totalPrice}
-      />
-    );
+    let burger = <Spiner />;
+    let modalVeu = null;
 
-    if (this.state.showLoader) {
-      modalVeu = <Spiner />;
+    if (this.state.ingredients) {
+      burger = (
+        <Aux>
+          <Burger ingredients={this.state.ingredients} />
+          <BuildControls
+            disabeld={this.state.ingredients}
+            addItems={this.addIngredients}
+            subItems={this.subIngredients}
+            price={this.state.totalPrice}
+            canOrder={this.state.canOrder}
+            showModule={this.showModulHandler}
+          />
+        </Aux>
+      );
+      modalVeu = (
+        <OrderSummery
+          clickedContinueBtn={this.continueBtn}
+          clickedCancelBtn={this.closeModal}
+          ingr={this.state.ingredients}
+          cost={this.state.totalPrice}
+        />
+      );
+
+      if (this.state.showLoader) {
+        modalVeu = <Spiner />;
+      }
     }
+
     return (
       <Aux>
         <Modal show={this.state.showModul} closeModal={this.closeModal}>
           {modalVeu}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls
-          disabeld={this.state.ingredients}
-          addItems={this.addIngredients}
-          subItems={this.subIngredients}
-          price={this.state.totalPrice}
-          canOrder={this.state.canOrder}
-          showModule={this.showModulHandler}
-        />
+        {burger}
       </Aux>
     );
   }
