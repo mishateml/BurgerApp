@@ -3,3 +3,9 @@
     margin: auto;
     width: 80%;
 }
+
+@media(min-width) {
+    .CheckoutBurger {
+        width: 500px;
+    }
+}

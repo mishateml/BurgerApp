@@ -2,11 +2,10 @@
     width: 100%;
     margin: auto;
     height: 250px;
-    overflow: scroll;
+    overflow: visible;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;
-    background-color: red;
 }
 
 @media (min-width: 500px) and (min-height:400px) {
@@ -14,7 +13,6 @@
         width: 350px;
         height: 300px;
 
-        background-color: green;
 
     }
 }
@@ -23,7 +21,6 @@
     .Burger {
         width: 400px;
         height: 300px;
-        background-color: lawngreen;
 
 
     }
@@ -33,7 +30,6 @@
     .Burger {
         width: 450px;
         height: 400px;
-        background-color: magenta;
 
     }
 }

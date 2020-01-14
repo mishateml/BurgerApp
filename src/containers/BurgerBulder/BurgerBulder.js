@@ -59,36 +59,33 @@ class BurgerBulder extends Component {
     }
   };
   continueBtn = () => {
+    const quryParams = [];
+
+    let ingWhitPrice = {};
+    ingWhitPrice = this.state.ingredients;
+    ingWhitPrice["price"] = this.state.totalPrice;
+
     this.setState({
-      showLoader: true
+      ingredients: ingWhitPrice
     });
-    // alert("ok redy to get");
-    const order = {
-      ingridiens: this.state.ingredients,
-      price: this.state.totalPrice,
-      custumerInfo: {
-        name: "misha",
-        address: {
-          street: "testStreet",
-          contry: "israel"
-        },
-        email: "test@test.com"
-      }
-    };
-    axios
-      .post("/orders.json", order)
-      .then(
-        this.setState({
-          showModul: false,
-          showLoader: false
-        })
-      )
-      .catch(
-        this.setState({
-          showLoader: false,
-          showModul: false
-        })
+    for (let i in this.state.ingredients) {
+      quryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
       );
+    }
+    // quryParams.push({
+    //   pathname: "/checkout",
+    //   search: "?" + this.state.totalPrice
+    // });
+    const queryString = quryParams.join("&");
+    console.log("===" + queryString);
+
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString
+    });
   };
 
   addIngredients = type => {
