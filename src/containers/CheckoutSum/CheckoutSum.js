@@ -9,7 +9,7 @@ class CheckoutSum extends Component {
     totalPrice: 0
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const ingredients = {};
     const query = new URLSearchParams(this.props.location.search);
     let price = 4;
@@ -38,7 +38,6 @@ class CheckoutSum extends Component {
   render() {
     return (
       <div>
-        {console.log(this.state.ingredients)}
         <CheckoutBurger
           chackoutCencel={this.chackoutCencelHandler}
           checkoutContinue={this.checkoutContinueHandler}
