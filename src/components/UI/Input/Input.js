@@ -3,12 +3,17 @@ import classes from "./Input.module.css";
 
 const input = props => {
   let inputElement = null;
+  const inputElementStyle = [classes.InputElement];
+
+  if (props.valid && props.shudeValidate && props.touched) {
+    inputElementStyle.push(classes.Invalid);
+  }
 
   switch (props.elType) {
     case "input":
       inputElement = (
         <input
-          className={classes.InputElement}
+          className={inputElementStyle.join(" ")}
           {...props.elConfig}
           value={props.elValue}
           onChange={props.changed}
@@ -18,7 +23,7 @@ const input = props => {
     case "select":
       inputElement = (
         <select
-          className={classes.InputElement}
+          className={inputElementStyle.join(" ")}
           onChange={props.changed}
           value={props.elValue}
         >
@@ -33,7 +38,7 @@ const input = props => {
     case "taxtarea":
       inputElement = (
         <taxtarea
-          className={classes.InputElement}
+          className={inputElementStyle.join(" ")}
           onChange={props.changed}
           {...props.elConfig}
           value={props.elValue}
@@ -44,7 +49,7 @@ const input = props => {
       console.log(props);
       inputElement = (
         <input
-          className={classes.InputElement}
+          className={inputElementStyle.join(" ")}
           onChange={props.changed}
           {...props.elConfig}
           value={props.elValue}
