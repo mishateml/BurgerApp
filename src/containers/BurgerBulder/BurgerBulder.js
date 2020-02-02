@@ -7,6 +7,9 @@ import OrderSummery from "../../components/Burger/OrderSummery/OrderSummery";
 import Spiner from "../../components/UI/Spiner/Spiner";
 import axios from "../../axios-orders";
 import errorHandler from "../../hoc/errorHandler/errorHandler";
+import {connect} from 'react-redux';
+import * as actionTypes from '../../store/actions';
+
 
 const ING_PRICE = {
   salad: 1,
@@ -26,13 +29,13 @@ class BurgerBulder extends Component {
     showLoader: false
   };
   componentDidMount() {
-    axios
-      .get("https://reactburgermisha.firebaseio.com/ingridians.json")
-      .then(res => {
-        this.setState({
-          ingredients: res.data
-        });
-      });
+    // axios
+    //   .get("https://reactburgermisha.firebaseio.com/ingridians.json")
+    //   .then(res => {
+    //     this.setState({
+    //       ingredients: res.data
+    //     });
+    //   });
   }
 
   closeModal = () => {
@@ -159,5 +162,16 @@ class BurgerBulder extends Component {
       </Aux>
     );
   }
+}
+
+const mapStateToProps  = stare =>{
+  return{
+    ings: state.ingredients
+  };
+}
+const mapDispatchToProps  = dispach =>{
+  return{
+    onIngredientAdded: ()=>dispatch(type:actionTypes.ADD)
+  };
 }
 export default errorHandler(BurgerBulder, axios);
