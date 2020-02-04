@@ -20,20 +20,14 @@ class CheckoutSum extends Component {
           checkoutContinue={this.checkoutContinueHandler}
           ingredients={this.props.ings}
         />
-        <Route
-          path={this.props.match.path + "/form"}
-          render={() => (
-            <Form ingredients={this.props.ings} price={this.props.price} />
-          )}
-        />
+        <Route path={this.props.match.path + "/form"} component={Form} />
       </div>
     );
   }
 }
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.ingredients
   };
 };
 export default connect(mapStateToProps)(CheckoutSum);

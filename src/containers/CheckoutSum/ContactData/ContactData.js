@@ -4,6 +4,8 @@ import classes from "./ContactData.module.css";
 import axios from "../../../axios-orders";
 import Input from "../../../components/UI/Input/Input";
 
+import { connect } from "react-redux";
+
 class ContactData extends Component {
   state = {
     orderForm: {
@@ -152,8 +154,8 @@ class ContactData extends Component {
     }
 
     const order = {
-      ingridiens: this.props.ingredients,
-      price: this.props.ingredients["price"],
+      ingridiens: this.props.ings,
+      price: this.props.price,
       custumerInfo: formElData
     };
 
@@ -171,6 +173,8 @@ class ContactData extends Component {
           showModul: false
         })
       );
+
+    this.props.history.push("/");
   };
   render() {
     const formElArr = [];
@@ -206,5 +210,11 @@ class ContactData extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    price: state.price
+  };
+};
 
-export default ContactData;
+export default connect(mapStateToProps)(ContactData);

@@ -2,6 +2,8 @@ import React from "react";
 import Aux from "../../../hoc/Auxl/Auxl";
 import Buttons from "../../UI/Button/Button";
 
+import { connect } from "react-redux";
+
 const orderSummery = props => {
   const ingrSummary = Object.keys(props.ingr).map(igKey => {
     return (
@@ -29,4 +31,10 @@ const orderSummery = props => {
     </Aux>
   );
 };
-export default orderSummery;
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice
+  };
+};
+export default connect(mapStateToProps)(orderSummery);
