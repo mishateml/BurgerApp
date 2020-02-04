@@ -2,32 +2,9 @@ import React, { Component } from "react";
 import CheckoutBurger from "../../components/checkout/CheckoutBurger/CheckoutBurger";
 import { Route } from "react-router-dom";
 import Form from "./ContactData/ContactData";
+import { connect } from "react-redux";
 
 class CheckoutSum extends Component {
-  state = {
-    ingredients: null,
-    totalPrice: 0
-  };
-
-  UNSAFE_componentWillMount() {
-    const ingredients = {};
-    const query = new URLSearchParams(this.props.location.search);
-    let price = 4;
-
-    for (let param of query.entries()) {
-      // if (param[0] === "price") {
-      //   price = param[1];
-      // } else {
-      ingredients[param[0]] = +param[1];
-    }
-    // }
-
-    this.setState({
-      ingredients: ingredients,
-      totalPrice: price
-    });
-  }
-
   chackoutCencelHandler = () => {
     this.props.history.goBack();
   };
@@ -41,19 +18,22 @@ class CheckoutSum extends Component {
         <CheckoutBurger
           chackoutCencel={this.chackoutCencelHandler}
           checkoutContinue={this.checkoutContinueHandler}
-          ingredients={this.state.ingredients}
+          ingredients={this.props.ings}
         />
         <Route
           path={this.props.match.path + "/form"}
           render={() => (
-            <Form
-              ingredients={this.state.ingredients}
-              price={this.state.totalPrice}
-            />
+            <Form ingredients={this.props.ings} price={this.props.price} />
           )}
         />
       </div>
     );
   }
 }
-export default CheckoutSum;
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice
+  };
+};
+export default connect(mapStateToProps)(CheckoutSum);

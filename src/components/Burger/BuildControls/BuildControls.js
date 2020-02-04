@@ -12,6 +12,7 @@ const controls = [
 const buildControls = props => {
   return (
     <div className={classes.BuildControls}>
+      {console.log(props.canOrder)}
       <p>
         Current Price: <strong>{props.price.toFixed(2)}</strong>
       </p>
