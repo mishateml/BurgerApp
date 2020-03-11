@@ -5,11 +5,9 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummery from "../../components/Burger/OrderSummery/OrderSummery";
 import Spiner from "../../components/UI/Spiner/Spiner";
-import axios from "../../axios-orders";
 import errorHandler from "../../hoc/errorHandler/errorHandler";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
-
+import * as burgerBuilderAction from "../../store/actions/index";
 class BurgerBulder extends Component {
   state = {
     orderClick: false,
@@ -94,9 +92,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: ingName =>
-      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
+      dispatch(burgerBuilderAction.addIngredient(ingName)),
     onIngredientRemoved: ingName =>
-      dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName })
+      dispatch(burgerBuilderAction.removeIngredient(ingName))
   };
 };
 
