@@ -7,7 +7,8 @@ const initialState = {
     cheese: 0,
     meat: 0
   },
-  totalPrice: 4
+  totalPrice: 4,
+  error: false
 };
 
 const ING_PRICE = {
@@ -36,6 +37,17 @@ const reducer = (state = initialState, action) => {
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1
         },
         totalPrice: state.totalPrice - ING_PRICE[action.ingredientName]
+      };
+    case actionTypes.SET_ING:
+      return {
+        ...state,
+        ingredients: action.ing,
+        error: false
+      };
+    case actionTypes.FETCH_ING_ERR:
+      return {
+        ...state,
+        error: false
       };
 
     default:

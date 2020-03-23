@@ -21,13 +21,21 @@ export const setIng = ing => {
   };
 };
 
-export const initIng = () => {
+export const fetchIngErr = () => {
+  return {
+    type: actionTypes.FETCH_ING_ERR
+  };
+};
+
+export const initIngs = () => {
   return dispatch => {
     axios
-      .get("https://reactburgermisha.firebaseio.com/ingridians")
-      .then(res = {
-          dispatch(setIng(res.data));
+      .get("https://reactburgermisha.firebaseio.com/ingridians.json")
+      .then(res => {
+        dispatch(setIng(res.data));
       })
-      .catch((error = {}));
+      .catch(error => {
+        dispatch(fetchIngErr());
+      });
   };
 };

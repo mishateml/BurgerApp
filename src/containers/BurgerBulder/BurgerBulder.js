@@ -8,12 +8,16 @@ import Spiner from "../../components/UI/Spiner/Spiner";
 import errorHandler from "../../hoc/errorHandler/errorHandler";
 import { connect } from "react-redux";
 import * as burgerBuilderAction from "../../store/actions/index";
+import axios from "../../axios-orders";
 class BurgerBulder extends Component {
   state = {
     orderClick: false,
     showModul: false,
     showLoader: false
   };
+  componentDidMount() {
+    this.props.onInitIng();
+  }
 
   closeModal = () => {
     this.setState({
@@ -86,7 +90,8 @@ class BurgerBulder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    error: state.error
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -94,7 +99,10 @@ const mapDispatchToProps = dispatch => {
     onIngredientAdded: ingName =>
       dispatch(burgerBuilderAction.addIngredient(ingName)),
     onIngredientRemoved: ingName =>
-      dispatch(burgerBuilderAction.removeIngredient(ingName))
+      dispatch(burgerBuilderAction.removeIngredient(ingName)),
+    onInitIng: () => {
+      dispatch(burgerBuilderAction.initIngs());
+    }
   };
 };
 
