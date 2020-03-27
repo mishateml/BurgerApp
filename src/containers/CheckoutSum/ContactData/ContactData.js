@@ -158,23 +158,6 @@ class ContactData extends Component {
       price: this.props.price,
       custumerInfo: formElData
     };
-
-    axios
-      .post("/orders.json", order)
-      .then(
-        this.setState({
-          showModul: false,
-          showLoader: false
-        })
-      )
-      .catch(
-        this.setState({
-          showLoader: false,
-          showModul: false
-        })
-      );
-
-    this.props.history.push("/");
   };
   render() {
     const formElArr = [];
